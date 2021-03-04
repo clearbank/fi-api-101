@@ -1,6 +1,6 @@
 ﻿namespace WebhooksReceiver.Models
 {
-    public sealed class WebhookResponse1
+    public sealed class WebhookResponse
     {
         public int Nonce { get; set; }
     }

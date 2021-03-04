@@ -2,6 +2,6 @@
 {
     public class ApiRequest
     {
-        public string Body { get; set; }
+        public string FieldName { get; set; }
     }
 }

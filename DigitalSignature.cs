@@ -8,10 +8,7 @@ namespace WebhooksReceiver
     {
         public static string Generate(string text, string privateKey)
         {
-            var preHash = Encoding.UTF8.GetBytes(text);
-
-            using var provider = SHA256.Create();
-            var hash = provider.ComputeHash(preHash);
+            var hash = HashString(text);
 
             using var rsa = RSA.Create();
             rsa.ImportFromPem(privateKey);
@@ -22,16 +19,21 @@ namespace WebhooksReceiver
 
         public static bool Verify(string digitalSignature, string text, string publicKey)
         {
-            var preHash = Encoding.UTF8.GetBytes(text);
-
-            using var provider = SHA256.Create();
-            var hash = provider.ComputeHash(preHash);
+            var hash = HashString(text);
 
             var signatureBytes = Convert.FromBase64String(digitalSignature);
 
             using var rsa = RSA.Create();
             rsa.ImportFromPem(publicKey);
             return rsa.VerifyHash(hash, signatureBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        }
+
+        private static byte[] HashString(string text)
+        {
+            var preHash = Encoding.UTF8.GetBytes(text);
+
+            using var provider = SHA256.Create();
+            return provider.ComputeHash(preHash);
         }
     }
 }

@@ -1,6 +1,8 @@
 # ClearBank® API 101
 
-Sample .NET 5 application to call ClearBank API and receive webhooks
+Sample .NET 5 application to call ClearBank API and receive webhooks.
+
+It is not production code, it was simplified for brevity.
 
 ## Overview
 
@@ -20,7 +22,13 @@ To be able to run application and receive webhooks you will need:
 
 ## Set up on ClearBank portal
 
-Upload your CSR and get auth token, download public key from webhooks management page. Copy auth token, your private key and clearbank public key into the SampleController constructor.
+You will need:
+
+- Your private key and CSR created
+- API token, upload your CSR to `Certificates and Tokens` page to get token
+- Public key, download from `Webhook Management` page
+
+Copy your public key, auth token and ClearBank public key into the SampleController constructor.
 
 ## Build and run
 
@@ -36,7 +44,7 @@ You can test it like so:
 curl --location --request POST 'http://localhost:5000/sample/api' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "body" : "test"
+    "fieldName" : "test"
 }'
 ```
 
@@ -52,7 +60,8 @@ You will get output similar to
 Forwarding https://91bf871fa2aa.ngrok.io -> http://localhost:5000 
 ```
 
-Copy that url and go to webhooks management page, find test webhook and set URL to `https://91bf871fa2aa.ngrok.io/sample/webhook`
+Copy that url and add `/sample/webhook` to the end so full url will be `https://91bf871fa2aa.ngrok.io/sample/webhook`.
+On webhooks management page, find test webhook, enable it and set URL.
 Click test button and you should receive a webhook into the application and see that in console:
 
 ```cmd
