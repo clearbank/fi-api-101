@@ -56,11 +56,12 @@ namespace WebhooksReceiver.Controllers
 
         [HttpPost]
         [Route("webhook")]
-        public IActionResult Post([FromBody] WebHookRequest webHookRequest, [FromHeader(Name = "DigitalSignature")] string digitalSignature)
+        public IActionResult Post([FromBody] WebhookRequest1 webhookRequest1, [FromHeader(Name = "DigitalSignature")] string digitalSignature)
         {
-            Console.WriteLine($"Received webhook {webHookRequest.Type}");
+            Console.WriteLine($"Received webhook {webhookRequest1.Type}");
             string body;
 
+            // We need to read the whole body here again to calculate hash, because we can't be certain that conversion back from WebhookRequest1 object will result in the same string
             Request.Body.Position = 0;
             using (var reader = new StreamReader(Request.Body))
             {
@@ -77,7 +78,7 @@ namespace WebhooksReceiver.Controllers
             // In production system you should put that webhook into the internal queue for processing 
             // Don't do heave processing here and send response as quick as possible
 
-            var result = new WebHookResponse { Nonce = webHookRequest.Nonce };
+            var result = new WebhookResponse1 { Nonce = webhookRequest1.Nonce };
 
             var response = JsonSerializer.Serialize(result);
             var signature = DigitalSignature.Generate(response, _authProfile.ClientPrivateKey);
