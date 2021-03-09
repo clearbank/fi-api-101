@@ -28,7 +28,7 @@ You will need:
 - API token, upload your CSR to `Certificates and Tokens` page to get token
 - Public key, download from `Webhook Management` page
 
-Copy your public key, auth token and ClearBank public key into the SampleController constructor.
+Copy your public key, API token and the ClearBank public key into the SampleController constructor.
 
 ## Build and run
 
