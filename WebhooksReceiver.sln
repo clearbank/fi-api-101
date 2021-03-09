@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebhooksReceiver", "WebhooksReceiver.csproj", "{712164A5-2C94-465D-965C-602338C80474}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{712164A5-2C94-465D-965C-602338C80474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{712164A5-2C94-465D-965C-602338C80474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{712164A5-2C94-465D-965C-602338C80474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{712164A5-2C94-465D-965C-602338C80474}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE15679B-C05F-41C8-BB0E-E99BA289B3F4}
+	EndGlobalSection
+EndGlobal
