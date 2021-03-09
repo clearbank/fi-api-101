@@ -61,7 +61,7 @@ Forwarding https://91bf871fa2aa.ngrok.io -> http://localhost:5000
 ```
 
 Copy that url and add `/sample/webhook` to the end so full url will be `https://91bf871fa2aa.ngrok.io/sample/webhook`.
-On webhooks management page, find test webhook, enable it and set URL.
+On the Webhook Management page of the ClearBank Portal, find the test webhook i.e. FITestEvent, enable it and set the webhook URL.
 Click the Test button to receive a webhook in the application and see it in the console:
 
 ```cmd
