@@ -8,7 +8,7 @@ It is not production code, it was simplified for brevity.
 
 The application has one controller with 2 endpoints:
 
-- `POST /sample/api` to make API request to `POST /v1/test` endpoint in ClearBank API
+- `POST /sample/api` to make an API request to the `POST /v1/test` endpoint in the ClearBank API
 - `POST /sample/webhook` to receive webhooks from ClearBank
 
 It does payload signing for API calls and signature verification for webhooks
