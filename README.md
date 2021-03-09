@@ -38,7 +38,7 @@ dotnet run
 ```
 
 Application starts listening on port 5000.
-You can test it like so:
+You can also test it:
 
 ```cmd
 curl --location --request POST 'http://localhost:5000/sample/api' \
