@@ -6,7 +6,7 @@ It is not production code, it was simplified for brevity.
 
 ## Overview
 
-Application has one controller with 2 endpoints:
+The application has one controller with 2 endpoints:
 
 - `POST /sample/api` to make API request to `POST /v1/test` endpoint in ClearBank API
 - `POST /sample/webhook` to receive webhooks from ClearBank
