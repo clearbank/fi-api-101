@@ -54,7 +54,7 @@ Now set up ngrok
 .\ngrok.exe http 5000
 ```
 
-You will get output similar to
+You will get an output similar to
 
 ```cmd
 Forwarding https://91bf871fa2aa.ngrok.io -> http://localhost:5000 
