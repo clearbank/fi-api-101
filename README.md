@@ -20,7 +20,7 @@ To be able to run the application and receive webhooks, you will need:
 - [.NET 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
 - [ngrok](https://ngrok.com/) We have used version 2.3.35
 
-## Set up on ClearBank portal
+## Set up on the ClearBank Portal
 
 You will need:
 
