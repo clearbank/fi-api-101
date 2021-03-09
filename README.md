@@ -1,8 +1,10 @@
 # ClearBank® API 101
 
-Sample .NET 5 application to call ClearBank API and receive webhooks.
+This repository is intended for users who are testing their connectivity and interaction with the ClearBank API and webhooks.
 
-It is not production code, it was simplified for brevity.
+It contains an example .NET 5 application that demonstrates how to make a call to the ClearBank API and how to receive, validate and respond to webhooks.
+
+Please note that the code in this repository is not production ready and has been simplified for brevity.
 
 ## Overview
 
