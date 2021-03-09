@@ -62,7 +62,7 @@ Forwarding https://91bf871fa2aa.ngrok.io -> http://localhost:5000
 
 Copy that url and add `/sample/webhook` to the end so full url will be `https://91bf871fa2aa.ngrok.io/sample/webhook`.
 On webhooks management page, find test webhook, enable it and set URL.
-Click test button and you should receive a webhook into the application and see that in console:
+Click the Test button to receive a webhook in the application and see it in the console:
 
 ```cmd
 Received webhook FITestEvent
