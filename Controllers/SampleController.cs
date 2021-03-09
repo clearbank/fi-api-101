@@ -36,24 +36,20 @@ namespace WebhooksReceiver.Controllers
         [Route("api")]
         public async Task<ActionResult<string>> Call([FromBody] ApiRequest request)
         {
-            using var client = new HttpClient
-            {
-                BaseAddress = new Uri(_authProfile.ApiUrl)
-            };
-
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, "v1/test");
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _authProfile.ApiToken);
 
-            // It is important to sign exactly same payload that is going to be send in http request
+            // It is important to sign exactly same payload that is going to be send in the http request
             // Conversion from object to JSON in different places may result in different strings and request will fail digital signature validation
             var requestAsString = JsonSerializer.Serialize(request);
             requestMessage.Content = new StringContent(requestAsString, Encoding.UTF8, "application/json");
             requestMessage.Headers.Add("DigitalSignature", DigitalSignature.Generate(requestAsString, _authProfile.ClientPrivateKey));
 
             // X-Request-Id - unique string that identifies the request. Do not reuse the same in 24 hour period.
-            // If your request result in server error, use the same X-Request-Id when retrying
+            // If your request result in server error, use the same X-Request-Id for retries
             requestMessage.Headers.Add("X-Request-Id", Guid.NewGuid().ToString("N"));
 
+            using var client = new HttpClient { BaseAddress = new Uri(_authProfile.ApiUrl) };
             var response = await client.SendAsync(requestMessage);
 
             // You should save X-Correlation-Id for future reference
@@ -69,16 +65,13 @@ namespace WebhooksReceiver.Controllers
         [Route("webhook")]
         public IActionResult Post([FromBody] WebhookRequest webhookRequest, [FromHeader(Name = "DigitalSignature")] string digitalSignature)
         {
-            Console.WriteLine($"Received webhook {webhookRequest.Type}");
-            string body;
+            Console.WriteLine($"Received webhook: {webhookRequest.Type}, payload: {webhookRequest.Payload}");
 
             // It is important to get body from request object to calculate hash
             // Conversion back from WebhookRequest object may result in different string that will fail validation
             Request.Body.Position = 0;
-            using (var reader = new StreamReader(Request.Body))
-            {
-                body = reader.ReadToEnd();
-            }
+            using var reader = new StreamReader(Request.Body);
+            var body = reader.ReadToEnd();
 
             var verified = DigitalSignature.Verify(digitalSignature, body, _authProfile.ClearBankPublicKey);
 
@@ -88,7 +81,7 @@ namespace WebhooksReceiver.Controllers
             }
 
             // In production system you should put that webhook into the internal queue for processing 
-            // Don't do heave processing here and send response as quick as possible
+            // Don't do heavy processing here and respond to webhook as quick as possible
 
             var result = new WebhookResponse { Nonce = webhookRequest.Nonce };
 
