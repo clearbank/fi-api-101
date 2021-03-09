@@ -70,3 +70,7 @@ Click the Test button to receive a webhook in the application and see it in the 
 ```cmd
 Received webhook: FITestEvent, payload: Test
 ```
+
+## Demo
+
+![demo](/Media/api-101.gif)
