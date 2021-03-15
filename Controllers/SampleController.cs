@@ -21,7 +21,7 @@ namespace WebhooksReceiver.Controllers
         {
             _authProfile = new AuthProfile
             {
-                ApiUrl = @"https://institution-sim.clearbank.co.uk/",
+                ApiUrl = @"https://institution-api-sim.clearbank.co.uk",
                 ApiToken = @"",
                 ClientPrivateKey = @"-----BEGIN RSA PRIVATE KEY-----
 

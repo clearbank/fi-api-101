@@ -42,11 +42,7 @@ Application starts listening on port 5000.
 You can also test it:
 
 ```cmd
-curl --location --request POST 'http://localhost:5000/sample/api' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "fieldName" : "test"
-}'
+curl.exe --location --request POST "http://localhost:5000/sample/api" --header "Content-Type: application/json" --data-raw "{\"fieldName\" :\"test\"}"
 ```
 
 Now set up ngrok
