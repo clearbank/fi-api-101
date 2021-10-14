@@ -12,9 +12,7 @@ namespace WebhooksReceiver
 
             signingAlgorithm.ImportFromPem(privateKey);
 
-            using var digestAlgorithm = SHA256.Create();
-
-            var signatureBytes = signingAlgorithm.SignData(Encoding.UTF8.GetBytes(text), digestAlgorithm);
+            var signatureBytes = signingAlgorithm.SignData(Encoding.UTF8.GetBytes(text), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
             return Convert.ToBase64String(signatureBytes);
         }
@@ -29,7 +27,7 @@ namespace WebhooksReceiver
 
             using var digestAlgorithm = SHA256.Create();
 
-            return signingAlgorithm.VerifyData(Encoding.UTF8.GetBytes(text), digestAlgorithm, signatureBytes);
+            return signingAlgorithm.VerifyData(Encoding.UTF8.GetBytes(text), signatureBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
         }
     }
 }
