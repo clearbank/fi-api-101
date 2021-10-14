@@ -4,36 +4,32 @@ using System.Text;
 
 namespace WebhooksReceiver
 {
-    public class DigitalSignature
+    public static class DigitalSignature
     {
         public static string Generate(string text, string privateKey)
         {
-            var hash = HashString(text);
+            using RSACryptoServiceProvider signingAlgorithm = new();
 
-            using var rsa = RSA.Create();
-            rsa.ImportFromPem(privateKey);
-            var signatureBytes = rsa.SignHash(hash, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            signingAlgorithm.ImportFromPem(privateKey);
+
+            using var digestAlgorithm = SHA256.Create();
+
+            var signatureBytes = signingAlgorithm.SignData(Encoding.UTF8.GetBytes(text), digestAlgorithm);
 
             return Convert.ToBase64String(signatureBytes);
         }
 
         public static bool Verify(string digitalSignature, string text, string publicKey)
         {
-            var hash = HashString(text);
-
             var signatureBytes = Convert.FromBase64String(digitalSignature);
 
-            using var rsa = RSA.Create();
-            rsa.ImportFromPem(publicKey);
-            return rsa.VerifyHash(hash, signatureBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-        }
+            using RSACryptoServiceProvider signingAlgorithm = new();
 
-        private static byte[] HashString(string text)
-        {
-            var preHash = Encoding.UTF8.GetBytes(text);
+            signingAlgorithm.ImportFromPem(publicKey);
 
-            using var provider = SHA256.Create();
-            return provider.ComputeHash(preHash);
+            using var digestAlgorithm = SHA256.Create();
+
+            return signingAlgorithm.VerifyData(Encoding.UTF8.GetBytes(text), digestAlgorithm, signatureBytes);
         }
     }
 }
