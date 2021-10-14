@@ -25,8 +25,6 @@ namespace WebhooksReceiver
 
             signingAlgorithm.ImportFromPem(publicKey);
 
-            using var digestAlgorithm = SHA256.Create();
-
             return signingAlgorithm.VerifyData(Encoding.UTF8.GetBytes(text), signatureBytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
         }
     }
