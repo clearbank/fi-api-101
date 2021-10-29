@@ -8,7 +8,7 @@ namespace WebhooksReceiver
     {
         public static string Generate(string text, string privateKey)
         {
-            using RSACryptoServiceProvider signingAlgorithm = new();
+            using var signingAlgorithm = RSA.Create();
 
             signingAlgorithm.ImportFromPem(privateKey);
 
@@ -21,7 +21,7 @@ namespace WebhooksReceiver
         {
             var signatureBytes = Convert.FromBase64String(digitalSignature);
 
-            using RSACryptoServiceProvider signingAlgorithm = new();
+            using var signingAlgorithm = RSA.Create();
 
             signingAlgorithm.ImportFromPem(publicKey);
 
