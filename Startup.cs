@@ -4,45 +4,54 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebhooksReceiver.Endpoints;
 
-namespace WebhooksReceiver
+namespace WebhooksReceiver;
+
+public class Startup(IConfiguration configuration)
 {
-    public class Startup
+    public IConfiguration Configuration { get; } = configuration;
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
     {
-        public Startup(IConfiguration configuration)
+        services.AddControllers();
+
+        services.AddSingleton(provider => new AuthProfile
         {
-            Configuration = configuration;
+            ApiUrl = @"https://institution-api-sim.clearbank.co.uk",
+            ApiToken = @"",
+            PrivateKey = @"-----BEGIN PRIVATE KEY-----
+
+-----END PRIVATE KEY-----",
+            PublicKey = @"-----BEGIN PUBLIC KEY-----
+
+-----END PUBLIC KEY-----"
+        });
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
 
-        public IConfiguration Configuration { get; }
+        app.UseRouting();
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        // Required to be able to read request body multiple times - https://devblogs.microsoft.com/aspnet/re-reading-asp-net-core-request-bodies-with-enablebuffering/
+        app.Use(next => context =>
         {
-            services.AddControllers();
-        }
+            context.Request.EnableBuffering();
+            return next(context);
+        });
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseEndpoints(endpoints =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseRouting();
-
-            // Required to be able to read request body multiple times - https://devblogs.microsoft.com/aspnet/re-reading-asp-net-core-request-bodies-with-enablebuffering/
-            app.Use(next => context =>
-            {
-                context.Request.EnableBuffering();
-                return next(context);
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }
+            endpoints.MapWebhookTriggerEndpoints();
+            endpoints.MapApiTestEndpoints();
+            endpoints.MapWebhooksReceiverEndpoints();
+        });
     }
 }

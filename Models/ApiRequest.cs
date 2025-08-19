@@ -1,7 +1,3 @@
-﻿namespace WebhooksReceiver.Models
-{
-    public class ApiRequest
-    {
-        public string FieldName { get; set; }
-    }
-}
+﻿namespace WebhooksReceiver.Models;
+
+public sealed record ApiRequest(string FieldName);
